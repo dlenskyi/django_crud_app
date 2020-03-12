@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+<br/>
+<div class="row">
+ <div class="col-md-5 col-xs-5 col-sm-5">
+ </div>
+  <form method="post">
+   {% csrf_token %}
+    <div class="form-row">
+      <div class="alert alert-warning">
+       <span>Are you sure you want to delete {{ object }}?</span>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-danger">
+     <span class="glyphicon glyphicon-trash"></span>
+    </button>
+  </form>
+ </div>
+</div>
+{% endblock %}

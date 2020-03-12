@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+ <div class="row">
+  <div class="col-md-1 col-xs-1 col-sm-1"></div>
+   <div  class="col-md-10 col-xs-10 col-sm-10">
+    <h2>List of users</h2>
+  </div>
+  <div class="col-md-1 col-xs-1 col-sm-1"></div>
+ </div>
+ <div class="row">
+  <div class="col-md-10 col-xs-10 col-sm-10"></div>
+  <div class="col-md-1 col-xs-1 col-sm-1">
+   <br/>
+       <a href="{% url 'user' %}">
+         <button type="button" class="btn btn-success">
+           <span class="glyphicon glyphicon-plus"></span>
+         </button>
+       </a>
+  </div>
+ </div>
+ <br/>
+ <div class="table-row thin-row">
+        <table>
+          <thead>
+          <tr>
+            <th style="text-align: center">Username</th>
+            <th style="text-align: center">Email</th>
+            <th style="text-align: center">First name</th>
+            <th style="text-align: center">Last name</th>
+            {% if perms.auth %}<th>Actions</th>{% endif %}
+          </tr>
+          </thead>
+          <tbody>
+
+          {% for user in user_list %}
+          <tr style="text-align: center">
+              <td><span><a href="{% url 'detail' user.pk %}">{{ user.username }}</a></span></td>
+              <td><span>{% if user.email %}{{ user.email }}{% else %}None{% endif %}</span></td>
+              <td><span>{% if user.first_name %}{{ user.first_name }}{% else %}None{% endif %}</span></td>
+              <td><span>{% if user.last_name %}{{ user.last_name }}{% else %}None{% endif %}</span></td>
+              {% if perms.auth %}
+              <td>
+               {% if perms.auth.view_user %}
+                 <a href="{% url 'detail' user.pk %}">
+                  <button type="button" class="btn btn-info">
+                   <span class="glyphicon glyphicon-open"></span>
+                  </button>
+                 </a>
+               {% endif %}
+               {% if perms.auth.change_user %}
+                 <a href="{% url 'edit' user.pk %}">
+                  <button type="button" class="btn btn-info">
+                   <span class="glyphicon glyphicon-pencil"></span>
+                  </button>
+                 </a>
+               {% endif %}
+               {% if perms.auth.delete_user %}
+                 <a href="{% url 'delete' user.pk %}">
+                  <button type="button" class="btn btn-danger">
+                   <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                 </a>
+               {% endif %}
+              </td>
+              {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

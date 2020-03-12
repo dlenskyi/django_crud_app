@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+ <div class="row">
+  <div class="col-md-1 col-xs-1 col-sm-1"></div>
+   <div  class="col-md-10 col-xs-10 col-sm-10">
+    <h2>List of shops</h2>
+  </div>
+  <div class="col-md-1 col-xs-1 col-sm-1"></div>
+ </div>
+ <div class="row">
+  <div class="col-md-10 col-xs-10 col-sm-10"></div>
+  <div class="col-md-1 col-xs-1 col-sm-1">
+   <br/>
+       <a href="{% url 'shop' %}">
+         <button type="button" class="btn btn-success">
+           <span class="glyphicon glyphicon-plus"></span>
+         </button>
+       </a>
+  </div>
+ </div>
+ <br/>
+ <div class="table-row thin-row">
+        <table>
+          <thead>
+          <tr>
+            <th style="text-align: center">Name</th>
+            <th style="text-align: center">Shop Number</th>
+            <th style="text-align: center">Owner</th>
+            {% if perms.shops %}<th>Actions</th>{% endif %}
+          </tr>
+          </thead>
+          <tbody>
+
+          {% for shop in shop_list %}
+          <tr style="text-align: center">
+              <td><span><a href="{% url 'shop-detail' shop.pk %}">{{ shop.name }}</a></span></td>
+              <td><span>{{ shop.shop_number }}</span></td>
+              <td><span>{% if shop.owner %}{{ shop.owner }}{% else %}None{% endif %}</span></td>
+              {% if perms.shops %}
+              <td>
+               {% if perms.shops.view_shop %}
+                 <a href="{% url 'shop-detail' shop.pk %}">
+                  <button type="button" class="btn btn-info">
+                   <span class="glyphicon glyphicon-open"></span>
+                  </button>
+                 </a>
+               {% endif %}
+               {% if perms.shops.change_shop %}
+                 <a href="{% url 'edit-shop' shop.pk %}">
+                  <button type="button" class="btn btn-info">
+                   <span class="glyphicon glyphicon-pencil"></span>
+                  </button>
+                 </a>
+               {% endif %}
+               {% if perms.shops.delete_shop %}
+                 <a href="{% url 'delete-shop' shop.pk %}">
+                  <button type="button" class="btn btn-danger">
+                   <span class="glyphicon glyphicon-trash"></span>
+                  </button>
+                 </a>
+               {% endif %}
+              </td>
+              {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

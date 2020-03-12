@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+<div class="row"></div>
+<br/>
+ <h2>Shop's credentials</h2>
+ <div class="table-row thin-row">
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: center">Name</th>
+        <th style="text-align: center">Shop Number</th>
+        <th style="text-align: center">Owner</th>
+        {% if perms.shops %}<th>Actions</th>{% endif %}
+      </tr>
+    </thead>
+    <tbody>
+     <tr style="text-align: center">
+         <td><span>{{ shop.name }}</span></td>
+         <td><span>{% if shop.shop_number %}{{ shop.shop_number }}{% else %}None{% endif %}</span></td>
+         <td><span>{% if shop.owner %}{{ shop.owner }}{% else %}None{% endif %}</span></td>
+         {% if perms.shops %}
+         <td>
+          {% if perms.shops.change_shop %}
+            <a href="{% url 'edit-shop' shop.pk %}">
+             <button type="button" class="btn btn-info">
+              <span class="glyphicon glyphicon-pencil"></span>
+             </button>
+            </a>
+          {% endif %}
+          {% if perms.shops.delete_shop %}
+            <a href="{% url 'delete-shop' shop.pk %}">
+             <button type="button" class="btn btn-danger">
+              <span class="glyphicon glyphicon-trash"></span>
+             </button>
+            </a>
+          {% endif %}
+         </td>
+         {% endif %}
+     </tr>
+   </tbody>
+   </table>
+ </div>
+</div>
+ <div class="col-md-12 col-xs-12 col-sm-12"><a href="{% url 'shop-home' %}">Back to shop's list</a></div>
+   </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+<div class="row"></div>
+<br/>
+ <h2>User's credentials</h2>
+ <div class="table-row thin-row">
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: center">Username</th>
+        <th style="text-align: center">Email</th>
+        <th style="text-align: center">First name</th>
+        <th style="text-align: center">Last name</th>
+        {% if perms.auth %}<th>Actions</th>{% endif %}
+      </tr>
+    </thead>
+    <tbody>
+     <tr style="text-align: center">
+         <td><span>{{ user.username }}</span></td>
+         <td><span>{% if user.email %}{{ user.email }}{% else %}None{% endif %}</span></td>
+         <td><span>{% if user.first_name %}{{ user.first_name }}{% else %}None{% endif %}</span></td>
+         <td><span>{% if user.last_name %}{{ user.last_name }}{% else %}None{% endif %}</span></td>
+         {% if perms.auth %}
+         <td>
+          {% if perms.auth.change_user %}
+            <a href="{% url 'edit' user.pk %}">
+             <button type="button" class="btn btn-info">
+              <span class="glyphicon glyphicon-pencil"></span>
+             </button>
+            </a>
+          {% endif %}
+          {% if perms.auth.delete_user %}
+            <a href="{% url 'delete' user.pk %}">
+             <button type="button" class="btn btn-danger">
+              <span class="glyphicon glyphicon-trash"></span>
+             </button>
+            </a>
+          {% endif %}
+         </td>
+         {% endif %}
+     </tr>
+   </tbody>
+   </table>
+ </div>
+</div>
+ <div class="col-md-12 col-xs-12 col-sm-12"><a href="{% url 'loggedin' %}">Back to user's list</a></div>
+   </div>
+</div>
+</div>
+{% endblock %}
